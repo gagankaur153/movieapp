@@ -1,5 +1,3 @@
-
-
 import React, { useContext } from 'react'
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { NavLink } from 'react-router-dom';
@@ -7,8 +5,11 @@ import Createcontext from './context/Createcontext';
 import Searchmovie from './Searchmovie';
 import { RxCross2 } from "react-icons/rx";
 
-const Navbar = ({ click, sidebardisplay }) => {
-  const { setSearch, search } = useContext(Createcontext)
+const Navbar = () => {
+  const { setSearch, search,sidebardisplay, setSidebardisplay } = useContext(Createcontext)
+        const handleclick= ()=>{
+            setSidebardisplay(!sidebardisplay)
+        }
 
   return (
    <>
@@ -16,11 +17,11 @@ const Navbar = ({ click, sidebardisplay }) => {
     fixed top-0 z-50 px-2 lg:px-26 sm:px-10 flex items-center gap-4 sm:justify-between '>
 
       {/* Left Section */}
-      <div className=' lg:hidden'>
+      <div className='lg:hidden'>
         {
           !sidebardisplay ? (
              <IoReorderThreeOutline
-          onClick={click}
+          onClick={handleclick}
           className='lg:hidden text-4xl transition duration-75
            text-black cursor-pointer hover:text-red-500'
         />
@@ -28,7 +29,7 @@ const Navbar = ({ click, sidebardisplay }) => {
           ) :
           (
             <RxCross2
-             onClick={click}
+             onClick={handleclick}
           className='lg:hidden text-3xl transition duration-75 text-black cursor-pointer hover:text-red-500'
            />
 
@@ -78,11 +79,6 @@ const Navbar = ({ click, sidebardisplay }) => {
     
 
     </div>
-    {/* <div>
-      <input type="text" placeholder='search movies ...' className='border-2 fixed top-0 z-50 border-red-600 shadow-lg focus:outline-none   rounded-2xl mt-24 px-4 py-2 w-full'  value={search}
-          onChange={(e) => setSearch(e.target.value)} />
-  <Searchmovie />
-    </div> */}
     </>
   )
 }

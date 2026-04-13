@@ -59,7 +59,7 @@ const [upcoming, setUpcoming] = useState([])
   
 
   return (
-    <div className="mt-16 px-2 md:px-5 pb-30 bg-zinc-100 lg:px-10 sm:mt-20  min-h-screen">
+    <div className="mt-16 px-2 md:px-5 bg-zinc-100 lg:px-10 sm:mt-20 pb-14 lg:pb-30  min-h-screen">
 
       {/* 🔥 HERO SECTION */}
     <div className=' lg:px-20'>
@@ -92,9 +92,6 @@ const [upcoming, setUpcoming] = useState([])
 
       </Swiper>
     </div>
-     <div className='flex'>
-    
-     </div>
     
       {/* 🔥 TRENDING SECTION */}
       <section className='px-2 sm:px-5 lg:px-20 mt-10'>

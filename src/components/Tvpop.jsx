@@ -1,7 +1,4 @@
-
-
-
-import React, { useContext, useEffect, useState, useRef } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaPlay } from "react-icons/fa";
 import Createcontext from './context/Createcontext';
 import { NavLink } from 'react-router-dom'
@@ -41,10 +38,8 @@ const Tvpop = () => {
 
         setTvdata(seasonsArr)
 
-        //  last season default select
         if (totalSeasons > 0) {
           setSelectedSeason(totalSeasons)
-          // setSelectedSeasonn(totalSeasons) 
         }
       })
       .finally(() => setLoading(false))
@@ -75,9 +70,9 @@ const Tvpop = () => {
   useEffect(() => { console.log("episode", episodes) }, [episodes])
 
   return (
-    <div className=' mt-16 pb-30 bg-zinc-100  sm:mt-20  min-h-screen text-black'>
+    <div className=' mt-16 bg-zinc-100  sm:mt-20  min-h-screen text-black'>
 
-     <div className=' bg-white  lg:px-26 md:px-5 z-30 fixed w-full'>
+     <div className=' bg-white lg:px-26 md:px-5 z-30 fixed w-full'>
        {/* Banner */}
       <div className='relative px-2'>
         <img
@@ -127,7 +122,7 @@ const Tvpop = () => {
 
      </div>
       {/* Episodes */}
-      <div className='px-2 lg:px-28 md:px-5 sm:px-6 py-80 sm:py-40 md:py-110 pb-6 space-y-6'>
+      <div className='px-2 lg:px-28 md:px-5 sm:px-6 pt-100 sm:pt-40 md:pt-120 pb-6 space-y-6'>
 
         {loading && <p className='text-black'>Loading...</p>}
 

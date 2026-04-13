@@ -31,7 +31,7 @@ const Tvseries = () => {
     },[alltvshows])
 
     console.log(homeshow)
-  // 🔥 Airing Today
+  // Airing Today
   useEffect(() => {
     axios
       .get("https://tmdb.modiavii66.workers.dev/tv/airing-today?page=1")
@@ -39,10 +39,10 @@ const Tvseries = () => {
   }, [])
 
   return (
-    <div className="mt-16 sm:mt-20 px-2 border pb-30 md:px-5 bg-zinc-100 lg:px-10  min-h-screen">
+    <div className="mt-16 sm:mt-20 px-2 border md:px-5 pb-14 lg:pb-30 bg-zinc-100 lg:px-10  min-h-screen">
 
-      {/* 🔥 HERO */}
-      <div className='lg:px-20'>
+      {/*  HERO */}
+      <div className=' lg:px-20'>
         <Swiper
        modules={[Autoplay]}
       slidesPerView={1}
@@ -77,8 +77,8 @@ const Tvseries = () => {
       
      
 
-      {/* 🔥 POPULAR */}
-      <section className='px-6 sm:px-12 lg:px-24 mt-10'>
+      {/*  POPULAR */}
+      <section className='lg:px-24 mt-10'>
         <h2 className='text-xl sm:text-2xl font-bold mb-4'>Popular Shows</h2>
 
         <div className='flex gap-4 overflow-x-scroll scrollbar-hide pb-2'>
@@ -100,8 +100,8 @@ const Tvseries = () => {
         </div>
       </section>
 
-      {/* 🔥 AIRING TODAY */}
-      <section className='px-6 sm:px-12 lg:px-24 mt-12'>
+      {/*  AIRING TODAY */}
+      <section className='lg:px-24 mt-12'>
         <h2 className='text-xl sm:text-2xl font-bold mb-4'>Airing Today</h2>
 
         <div className='flex gap-4 overflow-x-scroll scrollbar-hide pb-2'>
@@ -126,7 +126,7 @@ const Tvseries = () => {
         </div>
       </section>
 
-        {/* 🔥 POPUP */}
+        {/* POPUP */}
       {/* {display && detail && (
         <Tvpop detail={detail} />
       )} */}

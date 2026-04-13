@@ -1,8 +1,10 @@
 
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
+import Createcontext from './context/Createcontext'
 
-const Sidebar = ({ sidebardisplay, setDisplay }) => {
+const Sidebar = () => {
+  const {sidebardisplay, setSidebardisplay} = useContext(Createcontext)
   return (
     <>
       {sidebardisplay && (
@@ -14,19 +16,19 @@ const Sidebar = ({ sidebardisplay, setDisplay }) => {
           {/* Menu */}
           <NavLink
             to="/"
-            onClick={() => setDisplay(false)}
+            onClick={() => setSidebardisplay(false)}
             className="text-xl py-4 border-b border-gray-700 hover:text-red-500"
           >
             Home
           </NavLink>
 
-          <NavLink to='/' onClick={()=> setDisplay(false)} className="text-xl py-4 border-b border-gray-700 hover:text-red-500 cursor-pointer">
+          <NavLink to='/' onClick={()=> setSidebardisplay(false)} className="text-xl py-4 border-b border-gray-700 hover:text-red-500 cursor-pointer">
             Movies
           </NavLink>
 
           <NavLink
             to="/tvseries"
-            onClick={() => setDisplay(false)}
+            onClick={() => setSidebardisplay(false)}
             className="text-xl py-4 border-b border-gray-700 hover:text-red-500"
           >
             Series

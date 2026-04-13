@@ -15,6 +15,8 @@ const Providecontext = ({ children }) => {
   const [selectseasonn, setSelectedSeasonn] = useState([])
   const [selectepisode, setSelectepisode] = useState([])
   const [selectedSeason, setSelectedSeason] = useState(null)
+  const [sidebardisplay, setSidebardisplay] = useState(false)
+       
 
   useEffect(() => {
     setLoading(true)
@@ -54,7 +56,9 @@ const Providecontext = ({ children }) => {
          loading, setLoading,
           selectseasonn, selectepisode,
            setSelectedSeasonn, setSelectepisode, 
-           selectedSeason, setSelectedSeason
+           selectedSeason, setSelectedSeason,
+  sidebardisplay, setSidebardisplay
+
 
     }}> {children}</Createcontext.Provider>
   )

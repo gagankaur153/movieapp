@@ -8,7 +8,7 @@ const Playvideo = () => {
     // console.log(detail?.id)
     const id = detail?.id
   return (
-    <div>
+    <div className='pb-40'>
     
         { 
   (

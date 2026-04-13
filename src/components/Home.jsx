@@ -55,19 +55,11 @@ const [upcoming, setUpcoming] = useState([])
 }, []);
 
 
-  // Fetch Top Rated TV
-  // useEffect(() => {
-  //   setLoading(true);
-
-  //   fetch("https://tmdb.modiavii66.workers.dev/tv/popular?page=1")
-  //     .then((res) => res.json())
-  //     .then((data) => setToprated(data.results))
-  // }, [])
 
   
 
   return (
-    <div className="mt-16 px-2 md:px-5 bg-zinc-100 lg:px-10 sm:mt-20  min-h-screen">
+    <div className="mt-16 px-2 md:px-5 pb-30 bg-zinc-100 lg:px-10 sm:mt-20  min-h-screen">
 
       {/* 🔥 HERO SECTION */}
     <div className=' lg:px-20'>

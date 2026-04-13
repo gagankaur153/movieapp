@@ -8,6 +8,7 @@ import Playvideo from './components/Playvideo'
 import Tvseries from './components/Tvseries'
 import Allepisode from './components/Allepisode'
 import Tvpop from './components/Tvpop'
+import Footer from './components/Footer'
 
 const   movie  = () => {
    const [isdisplay, setDisplay] = useState(false)
@@ -18,7 +19,7 @@ const   movie  = () => {
    
   return (
     <>
-     <Navbar click={handleclick } display={setDisplay} />
+     <Navbar click={handleclick } display={setDisplay} sidebardisplay={isdisplay} />
      <Sidebar sidebardisplay={isdisplay}/>
     
   <Routes>
@@ -30,6 +31,8 @@ const   movie  = () => {
     <Route path='/tvdetail' element={<Tvpop/>} />
     {/* <Route path='/' element={<Page/>}/> */}
   </Routes>
+
+  <Footer/>
     </>
    
   )

@@ -1,36 +1,3 @@
-// import React, { useContext, useEffect } from 'react'
-// import Createcontext from './context/Createcontext'
-
-// const Searchmovie = () => {
-//     const {searchmovie, search} = useContext(Createcontext)
-//   useEffect(()=>{
-//     if(search){
-//  console.log("search movie display",searchmovie)
-//     }
-    
-   
-//   },[search])
- 
-//   return (
-//    <>
-//     {
-//       searchmovie && 
-//        (
-//         searchmovie.map((data)=>(
-//           <div className=' bg-gray-800 h-100 fixed right-20 z-50 w-100' key={data.id}>
-//         <img src={`https://image.tmdb.org/t/p/w500${data?.backdrop_path}`} className='w-40 h-20' alt="" />
-//         <p>{ data?.tittle || data?.name}</p>
-//        </div>
-//         ))
-//        )
-
-      
-//     }</>
-   
-//   )
-// }
-
-// export default Searchmovie
 
 import React, { useContext } from 'react'
 import Createcontext from './context/Createcontext'

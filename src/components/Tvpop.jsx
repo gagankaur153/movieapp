@@ -15,17 +15,15 @@ const Tvpop = () => {
     tvid,
     setLoading,
     loading,
-              selectedSeason, setSelectedSeason
-,setSelectepisode
+    selectedSeason,
+   setSelectedSeason,
+    setSelectepisode
   } = useContext(Createcontext)
 
   const [tvdata, setTvdata] = useState([])
   const [episodes, setEpisodes] = useState([])
-  // const [selectedSeason, setSelectedSeason] = useState(null)
-  console.log("tvpop season",selectedSeason)
-cls
 
-  // ✅ 1. Fetch seasons
+  //  1. Fetch seasons
   useEffect(() => {
     if (!tvid) return
 
@@ -43,17 +41,17 @@ cls
 
         setTvdata(seasonsArr)
 
-        // ✅ last season default select
+        //  last season default select
         if (totalSeasons > 0) {
           setSelectedSeason(totalSeasons)
-            // setSelectedSeasonn(totalSeasons) 
+          // setSelectedSeasonn(totalSeasons) 
         }
       })
       .finally(() => setLoading(false))
 
   }, [tvid])
 
-  // ✅ 2. Fetch episodes when season changes
+  //  2. Fetch episodes when season changes
   useEffect(() => {
     if (!selectedSeason) return
 
@@ -68,13 +66,13 @@ cls
 
   }, [selectedSeason, tvid])
 
-  // ✅ Season click
+  //  Season click
   const handleSeasonClick = (season) => {
     setSelectedSeason(season)
-      // setSelectedSeasonn(season) 
+    // setSelectedSeasonn(season) 
   }
 
-  useEffect(()=> {console.log("episode",episodes)},[episodes])
+  useEffect(() => { console.log("episode", episodes) }, [episodes])
 
   return (
     <div className='text-black'>
@@ -108,18 +106,17 @@ cls
         <h2 className='text-lg'>Episodes</h2>
 
         <div
-        
+
           className='flex scrollbar-hide gap-6 overflow-x-auto mt-5'
         >
           {tvdata.map((season) => (
             <p
               key={season}   // ✅ FIXED
               onClick={() => handleSeasonClick(season)}
-              className={`cursor-pointer pb-2 shrink-0 ${
-                selectedSeason === season
+              className={`cursor-pointer pb-2 shrink-0 ${selectedSeason === season
                   ? "text-red-500 font-bold"
                   : "text-gray-600"
-              }`}
+                }`}
             >
               Season {season}
             </p>
@@ -146,7 +143,7 @@ cls
                 alt=""
               />
 
-              <NavLink to='/playmovie' onClick={()=> {
+              <NavLink to='/playmovie' onClick={() => {
                 setSelectepisode(ep.episode_number)
               }} className='absolute inset-0 flex items-center justify-center'>
                 <FaPlay className='text-white text-2xl opacity-80' />

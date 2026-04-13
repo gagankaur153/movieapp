@@ -9,9 +9,6 @@ import Loader from './Loader';
 
 const Popup = () => {
 
- 
-
-
 
   const {
     detail,
@@ -69,7 +66,7 @@ const Popup = () => {
   }
 
   const genres = detail?.genre_ids?.map(id => genreMap[id])
-  console.log(genres)
+ 
 
   return (
     <div className='fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex justify-center items-start overflow-y-auto p-4'>
@@ -139,7 +136,7 @@ const Popup = () => {
 
         </div>
 
-        {/* 🔥 SIMILAR MOVIES */}
+        {/* SIMILAR MOVIES */}
         <div className='p-6'>
 
           <h2 className='text-xl sm:text-2xl font-bold mb-4'>

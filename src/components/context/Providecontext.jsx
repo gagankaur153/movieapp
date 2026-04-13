@@ -16,8 +16,6 @@ const Providecontext = ({ children }) => {
   const [selectepisode, setSelectepisode] = useState([])
   const [selectedSeason, setSelectedSeason] = useState(null)
 
-  console.log("season", selectseasonn)
-  console.log("tvid", tvid)
   useEffect(() => {
     setLoading(true)
     axios.get("https://tmdb.modiavii66.workers.dev/movies/popular?page=1")
@@ -26,12 +24,7 @@ const Providecontext = ({ children }) => {
       })
       .finally(() => setLoading(false));
   }, [])
-  //  const seasonallepisode = (tvid, seasonid)=> {
-  //   const season = seasonid.split(" ")
-  //    axios.get(`https://api.themoviedb.org/3/tv/${tvid}/season/${season[1]}?api_key=8feaa6410559e6461f3c6544a5ca30da`)
-  //   .then(res => console.log("seson", res.data))
-  // }
-console.log(search)
+ 
   useEffect(() => {
     if (search) {
       axios.get(`https://tmdb.modiavii66.workers.dev/search/multi?query=${search}&page=1`)
@@ -41,14 +34,6 @@ console.log(search)
         })
     }
   }, [search])
-
-  //  useEffect(()=>{
-  //     axios.get("https://api.themoviedb.org/3/tv/19530?api_key=8feaa6410559e6461f3c6544a5ca30da")
-  //     .then(res=> console.log("tv series", res.data?.seasons))
-  //   },[])
-
-
-
 
   const handledisplay = () => {
     setDisplay(!display)

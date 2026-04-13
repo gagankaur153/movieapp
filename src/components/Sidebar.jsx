@@ -8,7 +8,7 @@ const Sidebar = ({ sidebardisplay, setDisplay }) => {
       {sidebardisplay && (
         <div
           className="fixed  w-full h-screen bg-white backdrop-blur-md 
-          z-50 flex flex-col pt-10 mt-10 px-8  lg:hidden"
+          z-50 flex flex-col pt-10  px-8  lg:hidden"
         >
 
           {/* Menu */}

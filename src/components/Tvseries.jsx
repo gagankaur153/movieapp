@@ -39,7 +39,7 @@ const Tvseries = () => {
   }, [])
 
   return (
-    <div className="mt-16 sm:mt-20 px-2 md:px-5 bg-zinc-100 lg:px-10  min-h-screen">
+    <div className="mt-16 sm:mt-20 px-2 border pb-30 md:px-5 bg-zinc-100 lg:px-10  min-h-screen">
 
       {/* 🔥 HERO */}
       <div className='lg:px-20'>

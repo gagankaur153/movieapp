@@ -68,7 +68,7 @@ const Navbar = ({ click, sidebardisplay }) => {
         <Searchmovie />
       </div>
 
-       <div>
+       <div className='md:hidden flex'>
          <input type="search" placeholder='search movies ...' className='  border border-red-300 shadow-2xl focus:outline-none w-full  rounded-2xl px-4 py-1'  value={search}
           onChange={(e) => setSearch(e.target.value)} />
 

@@ -39,8 +39,7 @@ const Sidebar = ({ sidebardisplay, setDisplay }) => {
         </div>
       )}
 
-      {/* Desktop Sidebar (optional slim bar) */}
-      {/* <div className="hidden lg:flex fixed top-20 left-0 h-full w-16 z-40"></div> */}
+      
     </>
   )
 }

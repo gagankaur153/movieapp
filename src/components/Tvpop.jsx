@@ -75,13 +75,14 @@ const Tvpop = () => {
   useEffect(() => { console.log("episode", episodes) }, [episodes])
 
   return (
-    <div className='text-black'>
+    <div className=' mt-16 pb-30 bg-zinc-100  sm:mt-20  min-h-screen text-black'>
 
-      {/* Banner */}
-      <div className='relative'>
+     <div className=' bg-white  lg:px-26 md:px-5 z-30 fixed w-full'>
+       {/* Banner */}
+      <div className='relative px-2'>
         <img
           src={`https://image.tmdb.org/t/p/original${detail?.backdrop_path}`}
-          className='w-full h-75 object-cover'
+          className='w-full h-45  sm:h-75 object-cover'
           alt=""
         />
 
@@ -95,25 +96,25 @@ const Tvpop = () => {
       </div>
 
       {/* Title */}
-      <div className='p-4 space-y-2'>
+      <div className=' px-2 sm:px-4 space-y-2'>
         <h1 className='text-2xl font-semibold'>{detail?.name}</h1>
-        <p className='text-sm italic'>{detail?.overview}</p>
+        <p className='text-sm italic line-clamp-3'>{detail?.overview}</p>
       </div>
 
       {/* Seasons */}
-      <div className='p-4'>
+      <div className='py-4'>
 
-        <h2 className='text-lg'>Episodes</h2>
+        <h2 className=' px-4 text-lg'>Episodes</h2>
 
         <div
 
-          className='flex scrollbar-hide gap-6 overflow-x-auto mt-5'
+          className='flex scrollbar-hide sm:gap-6 border-b border-b-zinc-400 overflow-x-auto mt-5'
         >
           {tvdata.map((season) => (
             <p
               key={season}   // ✅ FIXED
               onClick={() => handleSeasonClick(season)}
-              className={`cursor-pointer pb-2 shrink-0 ${selectedSeason === season
+              className={`cursor-pointer pb-2 px-4 shrink-0 ${selectedSeason === season
                   ? "text-red-500 font-bold"
                   : "text-gray-600"
                 }`}
@@ -124,15 +125,16 @@ const Tvpop = () => {
         </div>
       </div>
 
+     </div>
       {/* Episodes */}
-      <div className='px-6 pb-6 space-y-6'>
+      <div className='px-2 lg:px-28 md:px-5 sm:px-6 py-80 sm:py-40 md:py-110 pb-6 space-y-6'>
 
-        {loading && <p>Loading...</p>}
+        {loading && <p className='text-black'>Loading...</p>}
 
         {!loading && episodes.map((ep) => (
           <div key={ep.id} className='flex gap-4'>
 
-            <div className='relative min-w-50 h-30'>
+            <div className='relative min-w-30 h-full sm:min-w-50 sm:h-30'>
               <img
                 src={
                   ep.still_path
@@ -151,7 +153,7 @@ const Tvpop = () => {
             </div>
 
             <div>
-              <h3 className='text-lg font-semibold'>{ep.name}</h3>
+              <h3 className='sm:text-lg text-zinc-800 font-semibold'>{ep.name}</h3>
 
               <p className='text-sm text-gray-500'>
                 S{selectedSeason} E{ep.episode_number} • {ep.air_date}

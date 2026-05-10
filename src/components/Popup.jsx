@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { MdCancel } from 'react-icons/md'
 import { FaPlay, FaStar } from 'react-icons/fa'
 import Createcontext from './context/Createcontext'
@@ -9,6 +9,7 @@ import Loader from './Loader'
 const Popup = () => {
   const { detail, handledisplay, setDetail, setDisplay, similarid, loading, setLoading } = useContext(Createcontext)
   const [popupmovie, setPopupmovie] = useState([])
+  const modalScrollRef = useRef(null)
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -45,8 +46,14 @@ const Popup = () => {
   const genres = detail?.genre_ids?.map((id) => genreMap[id]).filter(Boolean)
   const backdrop = detail?.backdrop_path_full || `https://image.tmdb.org/t/p/original${detail?.backdrop_path}`
 
+  const handleSimilarClick = (movie) => {
+    setDetail(movie)
+    setDisplay(true)
+    modalScrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
-    <div className='fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-2 backdrop-blur-sm md:p-4'>
+    <div ref={modalScrollRef} className='fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-2 backdrop-blur-sm md:p-4'>
       <div className='w-full max-w-5xl overflow-hidden rounded-lg border border-white/10 bg-zinc-950 text-white shadow-2xl shadow-black/50'>
         <div className='relative'>
           <MdCancel
@@ -91,10 +98,7 @@ const Popup = () => {
               popupmovie?.map((movie) => (
                 <div
                   key={movie.id}
-                  onClick={() => {
-                    setDetail(movie)
-                    setDisplay(true)
-                  }}
+                  onClick={() => handleSimilarClick(movie)}
                   className='cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-white/5 transition duration-300 hover:-translate-y-1 hover:border-red-500'
                 >
                   <img src={`https://image.tmdb.org/t/p/w500${movie?.backdrop_path}`} className='h-32 w-full object-cover' alt={movie?.title} />

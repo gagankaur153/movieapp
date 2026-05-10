@@ -28,14 +28,19 @@ const Providecontext = ({ children }) => {
   }, [])
  
   useEffect(() => {
+  const timer = setTimeout(() => {
     if (search) {
-      axios.get(`https://tmdb.modiavii66.workers.dev/search/multi?query=${search}&page=1`)
-        .then(res => {
-          setSearchmovie(res?.data?.results)
-          console.log(res.data)
-        })
+      axios
+        .get(`https://tmdb.modiavii66.workers.dev/search/multi?query=${search}&page=1`)
+        .then((res) => {
+          setSearchmovie(res?.data?.results);
+          console.log(res.data);
+        });
     }
-  }, [search])
+  }, 500);
+
+  return () => clearTimeout(timer);
+}, [search]);
 
   const handledisplay = () => {
     setDisplay(!display)

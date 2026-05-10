@@ -69,7 +69,7 @@ const Popup = () => {
  
 
   return (
-    <div className='fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex justify-center items-start overflow-y-auto p-4'>
+    <div className='fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex justify-center items-start overflow-y-auto p-2 md:p-4'>
 
       {/* MAIN CONTAINER */}
       <div className=' bg-white rounded-xl max-w-5xl w-full shadow-xl'>

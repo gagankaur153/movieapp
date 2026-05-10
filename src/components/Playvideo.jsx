@@ -1,12 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Createcontext from './context/Createcontext'
 
 const Playvideo = () => {
     const {detail,
-     selectedSeason,selectepisode,tvid
+     selectedSeason,selectepisode,tvid,id
     } = useContext(Createcontext)
-    // console.log(detail?.id)
-    const id = detail?.id
+
+    useEffect(()=>{
+       document.title="video play"
+    },[])
   return (
     <div className=''>
     

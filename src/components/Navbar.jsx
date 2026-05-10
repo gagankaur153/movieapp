@@ -40,7 +40,7 @@ const Navbar = () => {
 
      <div>
         <h1 className='text-red-600 text-xl sm:text-2xl font-extrabold tracking-wide cursor-pointer'>
-          NovaFlix
+          Novamovies
         </h1>
      </div>
 

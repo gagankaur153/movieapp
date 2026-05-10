@@ -59,10 +59,10 @@ const [upcoming, setUpcoming] = useState([])
   
 
   return (
-    <div className="mt-16 px-2 md:px-5 bg-zinc-100 lg:px-10 sm:mt-20 pb-14 lg:pb-30  min-h-screen">
+    <div className="mt-16 px-2 md:px-5 bg-zinc-100 lg:px-0 sm:mt-20 pb-14 lg:pb-30  min-h-screen">
 
       {/* 🔥 HERO SECTION */}
-    <div className=' lg:px-20'>
+    <div className=' lg:px-0'>
         <Swiper
       modules={[Autoplay]}
       slidesPerView={1}
@@ -74,7 +74,7 @@ const [upcoming, setUpcoming] = useState([])
         homemovie && (
           homemovie.map((data)=> (
             <SwiperSlide key={data.id} className='relative'>
-                <img src={data?.backdrop_path_full} alt="" className='w-800 md:h-50  xl:h-80 2xl:h-100' />
+                <img src={data?.backdrop_path_full} alt="" className='w-800 md:h-50  xl:h-100 2xl:h-100' />
                 <NavLink to='/playmovie' onClick={()=>
                  {
                   setDetail(data)}}>

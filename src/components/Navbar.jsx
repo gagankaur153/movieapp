@@ -13,8 +13,7 @@ const Navbar = () => {
 
   return (
    <>
-    <div className='w-full h-16 sm:h-20 shadow-2xl  bg-white
-    fixed top-0 z-50 px-2 lg:px-26 sm:px-10 flex items-center gap-4 sm:justify-between '>
+    <div className='fixed top-0 z-50 flex h-16 w-full items-center gap-3 border-b border-white/10 bg-zinc-950/95 px-3 text-white shadow-2xl shadow-black/20 backdrop-blur sm:h-20 sm:justify-between sm:px-10 lg:px-26'>
 
       {/* Left Section */}
       <div className='lg:hidden'>
@@ -22,15 +21,14 @@ const Navbar = () => {
           !sidebardisplay ? (
              <IoReorderThreeOutline
           onClick={handleclick}
-          className='lg:hidden text-4xl transition duration-75
-           text-black cursor-pointer hover:text-red-500'
+          className='cursor-pointer text-4xl text-white transition duration-75 hover:text-red-500 lg:hidden'
         />
 
           ) :
           (
             <RxCross2
              onClick={handleclick}
-          className='lg:hidden text-3xl transition duration-75 text-black cursor-pointer hover:text-red-500'
+          className='cursor-pointer text-3xl text-white transition duration-75 hover:text-red-500 lg:hidden'
            />
 
           )
@@ -39,17 +37,17 @@ const Navbar = () => {
       </div>
 
      <div>
-        <h1 className='text-red-600 text-xl sm:text-2xl font-extrabold tracking-wide cursor-pointer'>
+        <NavLink className='cursor-pointer text-xl font-extrabold tracking-wide text-red-500 sm:text-2xl'>
           Novamovies
-        </h1>
+        </NavLink>
      </div>
 
       {/* Center Menu */}
-      <div className='hidden lg:flex gap-8 text-gray-800 font-medium'>
-        <NavLink to='/' className='hover:text-red-500 transition'>Movies</NavLink>
+      <div className='hidden gap-8 font-medium text-zinc-300 lg:flex'>
+        <NavLink to='/' className='transition hover:text-red-500'>Movies</NavLink>
         {/* <span className='hover:text-white cursor-pointer'>Movies</span> */}
-        <NavLink to='/tvseries' className='hover:text-red-500 transition'>Series</NavLink>
-        <span className='hover:text-red-500 cursor-pointer'>New & Popular</span>
+        <NavLink to='/tvseries' className='transition hover:text-red-500'>Series</NavLink>
+        <NavLink to='/new-popular' className='transition hover:text-red-500'>New & Popular</NavLink>
       </div>
 
       {/* Search */}
@@ -59,8 +57,7 @@ const Navbar = () => {
           value={search}
           placeholder='Search movies...'
           onChange={(e) => setSearch(e.target.value)}
-          className=' text-sm px-4 py-2 border border-zinc-300 rounded-full w-48 sm:w-64 
-          focus:outline-none focus:ring-2 focus:ring-red-500 transition'
+          className='w-48 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-zinc-500 transition focus:outline-none focus:ring-2 focus:ring-red-500 sm:w-64'
         />
 
        
@@ -69,8 +66,8 @@ const Navbar = () => {
         <Searchmovie />
       </div>
 
-       <div className='md:hidden flex'>
-         <input type="search" placeholder='search movies ...' className='  border border-red-300 shadow-2xl focus:outline-none w-full  rounded-2xl px-4 py-1'  value={search}
+       <div className='relative flex min-w-0 flex-1 md:hidden'>
+         <input type="search" placeholder='Search...' className='w-full rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-zinc-500 shadow-2xl focus:outline-none focus:ring-2 focus:ring-red-500'  value={search}
           onChange={(e) => setSearch(e.target.value)} />
 
            <Searchmovie />

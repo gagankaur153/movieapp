@@ -1,48 +1,32 @@
 import React from 'react'
-import {  FaCirclePlay  } from "react-icons/fa6";
+import { FaCirclePlay } from 'react-icons/fa6'
 
 const Footer = () => {
   return (
-   <>
-   <div className='bg-zinc-900 space-y-10  py-10 lg:px-20 px-6 sm:px-5'>
-     <div className='sm:flex gap-10 text-white   bottom-0 '>
-       <div className='space-y-3 relative sm:w-200'>
-         <div className='bg-zinc-800 inline-block'>
-            <h1 className='text-4xl'>
-               NOVAMOVIES
-            </h1>
-            <div className='absolute left-[20%] top-[1%]  '>
-               <FaCirclePlay className='text-red-600 bg-red-50 rounded-full text-5xl border-zinc-400 border' />
-            </div>
-            <p className='text-sm font-medium'>watch your favorite movies online </p>
-        </div>
-        <div className=''>
-            <p className=''>Novamovies - Watch Free Movies and TV Shows Online « novamovies</p>
+    <footer className='border-t border-white/10 bg-zinc-950 px-6 py-10 text-zinc-400 sm:px-8 lg:px-20'>
+      <div className='grid gap-8 md:grid-cols-[1.2fr_1fr]'>
+        <div className='space-y-3'>
+          <div className='flex items-center gap-3'>
+            <FaCirclePlay className='text-4xl text-red-500' />
+            <h2 className='text-3xl font-black tracking-wide text-white'>NOVAMOVIES</h2>
+          </div>
+          <p className='max-w-2xl text-sm leading-6'>
+            Stream movies and series with a cleaner, faster browsing experience built around posters, episodes, and playback.
+          </p>
         </div>
 
-       <div>
-         <p className='text-xs text-zinc-500'>Novamovies Watch Latest Movies,TV Series Online for free and Download in HD on Novamovies website,Novamovies Bollywood,Novamovies app,Novamovies online.</p>
-       </div>
-       </div>
-
-       <div className='space-y-4 font-semibold'>
-        <h1>Novamovies - Watch Free Movies and TV Shows Online « novamovies</h1>
-       <p className='text-zinc-300 text-sm'>
-        Prmovies Watch Latest Movies,TV Series Online for free and Download in HD on Prmovies website,Prmovies Bollywood,Prmovies app,Prmovies online.
-       </p>
-       </div>
-
-    </div>
-
-    <div className='sm:flex gap-2 grid grid-cols-2 sm:gap-5 lg:justify-center lg:gap-8 sm:px-5'>
-        <p className='border text-sm border-zinc-700 rounded-full text-zinc-500 px-4 bg-zinc-800'>novamovies online</p>
-        <p className='border text-sm border-zinc-700 rounded-full text-zinc-500 px-4 bg-zinc-800'>novamovies free</p>
-        <p className='border text-sm border-zinc-700 rounded-full text-zinc-500 px-4 bg-zinc-800'>novamoies website</p>
-        <p className='border text-sm border-zinc-700 rounded-full text-zinc-500 px-4 bg-zinc-800'>novamies Bollywood</p>
-
-    </div>
-   </div>
-   </>
+        <div className='space-y-3'>
+          <h3 className='font-bold text-white'>Browse</h3>
+          <div className='flex flex-wrap gap-2'>
+            {['Movies', 'TV Series', 'Trending', 'Coming Soon'].map((item) => (
+              <span key={item} className='rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm'>
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
   )
 }
 

@@ -1,170 +1,109 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { FaPlay } from "react-icons/fa";
-import Createcontext from './context/Createcontext';
+import { FaPlay } from 'react-icons/fa'
+import Createcontext from './context/Createcontext'
 import { NavLink } from 'react-router-dom'
-import axios from 'axios';
+import axios from 'axios'
 
 const Tvpop = () => {
-
-  const {
-    detail,
-    setDisplaymovie,
-    tvid,
-    setLoading,
-    loading,
-    selectedSeason,
-   setSelectedSeason,
-    setSelectepisode
-  } = useContext(Createcontext)
+  const { detail, tvid, setLoading, loading, selectedSeason, setSelectedSeason } = useContext(Createcontext)
 
   const [tvdata, setTvdata] = useState([])
   const [episodes, setEpisodes] = useState([])
+  const [showDetail, setShowDetail] = useState(detail)
 
-  //  1. Fetch seasons
   useEffect(() => {
     if (!tvid) return
 
     setLoading(true)
-
     axios
       .get(`https://api.themoviedb.org/3/tv/${tvid}?api_key=8feaa6410559e6461f3c6544a5ca30da`)
-      .then(res => {
-        const totalSeasons = res?.data?.number_of_seasons || 0
-
-        const seasonsArr = Array.from(
-          { length: totalSeasons },
-          (_, i) => i + 1
-        )
-
+      .then((res) => {
+        const data = res?.data
+        setShowDetail((current) => current || data)
+        const totalSeasons = data?.number_of_seasons || 0
+        const seasonsArr = Array.from({ length: totalSeasons }, (_, i) => i + 1)
         setTvdata(seasonsArr)
-
-        if (totalSeasons > 0) {
-          setSelectedSeason(totalSeasons)
-        }
+        if (totalSeasons > 0) setSelectedSeason(1)
       })
       .finally(() => setLoading(false))
+  }, [tvid, setLoading, setSelectedSeason])
 
-  }, [tvid])
-
-  //  2. Fetch episodes when season changes
   useEffect(() => {
-    if (!selectedSeason) return
+    if (!selectedSeason || !tvid) return
 
     setLoading(true)
-
     axios
       .get(`https://api.themoviedb.org/3/tv/${tvid}/season/${selectedSeason}?api_key=8feaa6410559e6461f3c6544a5ca30da`)
-      .then(res => {
-        setEpisodes(res.data.episodes || [])
-      })
+      .then((res) => setEpisodes(res.data.episodes || []))
       .finally(() => setLoading(false))
+  }, [selectedSeason, tvid, setLoading])
 
-  }, [selectedSeason, tvid])
-
-  //  Season click
-  const handleSeasonClick = (season) => {
-    setSelectedSeason(season)
-    // setSelectedSeasonn(season) 
-  }
-
-  useEffect(() => { console.log("episode", episodes) }, [episodes])
+  const backdrop = showDetail?.backdrop_path_full || `https://image.tmdb.org/t/p/original${showDetail?.backdrop_path}`
 
   return (
-    <div className=' mt-16 bg-zinc-100  sm:mt-20  min-h-screen text-black'>
+    <main className='mt-16 min-h-screen bg-zinc-950 pb-10 text-white sm:mt-20'>
+      <section className='relative'>
+        <img src={backdrop} className='h-[260px] w-full object-cover sm:h-[360px] xl:h-[430px]' alt={showDetail?.name || 'TV show'} />
+        <div className='absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/45 to-transparent' />
+        <div className='absolute bottom-7 left-4 max-w-3xl space-y-3 sm:left-8 lg:left-24'>
+          <p className='text-xs font-semibold uppercase tracking-[0.32em] text-red-400'>Series</p>
+          <h1 className='line-clamp-2 text-3xl font-black sm:text-5xl'>{showDetail?.name || 'Select a series'}</h1>
+          <p className='line-clamp-3 max-w-2xl text-sm text-zinc-300 sm:text-base'>{showDetail?.overview}</p>
+        </div>
+      </section>
 
-     <div className=' bg-white lg:px-26 md:px-5 z-30 fixed w-full'>
-       {/* Banner */}
-      <div className='relative px-2'>
-        <img
-          src={`https://image.tmdb.org/t/p/original${detail?.backdrop_path}`}
-          className='w-full h-45  sm:h-75 object-cover'
-          alt=""
-        />
-
-        <NavLink
-          to='/playmovie'
-          onClick={() => setDisplaymovie(true)}
-          className='absolute bottom-6 left-6 bg-white px-4 py-2 rounded flex items-center gap-2'
-        >
-          <FaPlay /> Play
-        </NavLink>
-      </div>
-
-      {/* Title */}
-      <div className=' px-2 sm:px-4 space-y-2'>
-        <h1 className='text-2xl font-semibold'>{detail?.name}</h1>
-        <p className='text-sm italic line-clamp-3'>{detail?.overview}</p>
-      </div>
-
-      {/* Seasons */}
-      <div className='py-4'>
-
-        <h2 className=' px-4 text-lg'>Episodes</h2>
-
-        <div
-
-          className='flex scrollbar-hide sm:gap-6 border-b border-b-zinc-400 overflow-x-auto mt-5'
-        >
+      <section className='sticky top-16 z-30 border-b border-white/10 bg-zinc-950/95 px-3 py-4 backdrop-blur sm:top-20 sm:px-6 lg:px-24'>
+        <h2 className='mb-4 text-lg font-bold'>Episodes</h2>
+        <div className='flex gap-2 overflow-x-auto scrollbar-hide'>
           {tvdata.map((season) => (
-            <p
-              key={season}   // ✅ FIXED
-              onClick={() => handleSeasonClick(season)}
-              className={`cursor-pointer pb-2 px-4 shrink-0 ${selectedSeason === season
-                  ? "text-red-500 font-bold"
-                  : "text-gray-600"
-                }`}
+            <button
+              type='button'
+              key={season}
+              onClick={() => setSelectedSeason(season)}
+              className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${
+                selectedSeason === season ? 'bg-red-600 text-white' : 'bg-white/5 text-zinc-300 hover:bg-white/10'
+              }`}
             >
               Season {season}
-            </p>
+            </button>
           ))}
         </div>
-      </div>
+      </section>
 
-     </div>
-      {/* Episodes */}
-      <div className='px-2 lg:px-28 md:px-5 sm:px-6 pt-100 sm:pt-40 md:pt-120 pb-6 space-y-6'>
+      <section className='space-y-4 px-3 py-6 sm:px-6 lg:px-24'>
+        {loading && <p className='text-zinc-400'>Loading episodes...</p>}
 
-        {loading && <p className='text-black'>Loading...</p>}
+        {!loading &&
+          episodes.map((ep) => (
+            <article key={ep.id} className='grid grid-cols-[120px_1fr] gap-4 rounded-lg border border-white/10 bg-white/5 p-2 sm:grid-cols-[210px_1fr] sm:p-3'>
+              <div className='relative aspect-video overflow-hidden rounded-md bg-zinc-900'>
+                <img
+                  src={ep.still_path ? `https://image.tmdb.org/t/p/w500${ep.still_path}` : 'https://via.placeholder.com/300x170?text=No+Image'}
+                  className='h-full w-full object-cover'
+                  alt={ep.name}
+                />
 
-        {!loading && episodes.map((ep) => (
-          <div key={ep.id} className='flex gap-4'>
+                <NavLink
+                  to={`/play/tv/${tvid}/${selectedSeason}/${ep.episode_number}`}
+                  className='absolute inset-0 flex items-center justify-center bg-black/20 transition hover:bg-black/35'
+                >
+                  <span className='flex h-11 w-11 items-center justify-center rounded-full bg-red-600 text-white shadow-lg'>
+                    <FaPlay />
+                  </span>
+                </NavLink>
+              </div>
 
-            <div className='relative min-w-30 h-full sm:min-w-50 sm:h-30'>
-              <img
-                src={
-                  ep.still_path
-                    ? `https://image.tmdb.org/t/p/w500${ep.still_path}`
-                    : "https://via.placeholder.com/300x200"
-                }
-                className='w-full h-full object-cover rounded'
-                alt=""
-              />
-
-              <NavLink to='/playmovie' onClick={() => {
-                setSelectepisode(ep.episode_number)
-              }} className='absolute inset-0 flex items-center justify-center'>
-                <FaPlay className='text-white text-2xl opacity-80' />
-              </NavLink>
-            </div>
-
-            <div>
-              <h3 className='sm:text-lg text-zinc-800 font-semibold'>{ep.name}</h3>
-
-              <p className='text-sm text-gray-500'>
-                S{selectedSeason} E{ep.episode_number} • {ep.air_date}
-              </p>
-
-              <p className='text-sm line-clamp-3 text-gray-400'>
-                {ep.overview || "No description available"}
-              </p>
-            </div>
-
-          </div>
-        ))}
-
-      </div>
-
-    </div>
+              <div className='min-w-0 py-1'>
+                <h3 className='line-clamp-1 text-sm font-bold text-white sm:text-lg'>{ep.name}</h3>
+                <p className='mt-1 text-xs text-zinc-500 sm:text-sm'>
+                  S{selectedSeason} E{ep.episode_number} {ep.air_date ? `- ${ep.air_date}` : ''}
+                </p>
+                <p className='mt-2 line-clamp-3 text-sm text-zinc-400'>{ep.overview || 'No description available'}</p>
+              </div>
+            </article>
+          ))}
+      </section>
+    </main>
   )
 }
 

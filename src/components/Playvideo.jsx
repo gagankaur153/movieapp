@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import Createcontext from './context/Createcontext'
 
 const Playvideo = () => {
-    const {detail,
+    const {
      selectedSeason,selectepisode,tvid,id
     } = useContext(Createcontext)
 

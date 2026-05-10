@@ -1,138 +1,103 @@
+/* eslint-disable react/prop-types */
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import Createcontext from './context/Createcontext'
-import {Swiper, SwiperSlide} from 'swiper/react'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/autoplay'
 import { Autoplay } from 'swiper/modules'
-import { FaPlay} from "react-icons/fa";
+import { FaPlay, FaStar } from 'react-icons/fa'
 
 const Tvseries = () => {
-
   const [alltvshows, setAlltvshows] = useState([])
   const [othershow, setOthershow] = useState([])
   const [homeshow, setHomeshow] = useState([])
 
   const { setDetail, setTvid } = useContext(Createcontext)
 
-  // 🔥 Popular TV
   useEffect(() => {
-    axios
-      .get("https://tmdb.modiavii66.workers.dev/tv/popular?page=1")
-      .then(res => setAlltvshows(res?.data?.results))
+    axios.get('https://tmdb.modiavii66.workers.dev/tv/popular?page=1').then((res) => setAlltvshows(res?.data?.results || []))
   }, [])
 
-  useEffect(()=> {
-      if(alltvshows){
-        setHomeshow(alltvshows.slice(0,5))
-      }
-  
-    },[alltvshows])
-
-    console.log(homeshow)
-  // Airing Today
   useEffect(() => {
-    axios
-      .get("https://tmdb.modiavii66.workers.dev/tv/airing-today?page=1")
-      .then(res => setOthershow(res?.data?.results))
+    setHomeshow(alltvshows.slice(0, 5))
+  }, [alltvshows])
+
+  useEffect(() => {
+    axios.get('https://tmdb.modiavii66.workers.dev/tv/airing-today?page=1').then((res) => setOthershow(res?.data?.results || []))
   }, [])
+
+  const openShow = (show) => {
+    setDetail(show)
+    setTvid(show.id)
+  }
 
   return (
-    <div className="mt-16 px-2 md:px-5 bg-zinc-100 lg:px-0 sm:mt-20 pb-14 lg:pb-30  min-h-screen">
-
-      {/*  HERO */}
-      <div className=' lg:px-0'>
-        <Swiper
-       modules={[Autoplay]}
-      slidesPerView={1}
-      spaceBetween={3}
-      loop={true}
-      autoplay={{delay: 2000}}
-      >
-        {
-          homeshow.length > 0 && (
-            homeshow.map((data)=> (
-               <SwiperSlide key={data.id} className=" relative">
-                 <img src={data?.backdrop_path_full} alt="" className='w-full h-[200px] md:h-[300px] xl:h-[400px] object-cover' />
-                 <NavLink to='/playmovie' onClick={()=>
-                                 {
-                 }}>
-                                 <FaPlay className='absolute top-[40%] left-[50%] text-3xl  inset-0 z-50  text-white cursor-pointer'
-                                
-                               />
-                              </NavLink>
-
-      </SwiperSlide>
-
-            ))
-          )
-        }
-
-      </Swiper>
-
-
-
-      </div>
-      
-     
-
-      {/*  POPULAR */}
-      <section className='lg:px-24 mt-10'>
-        <h2 className='text-xl sm:text-2xl font-bold mb-4'>Popular Shows</h2>
-
-        <div className='flex gap-4 overflow-x-scroll scrollbar-hide pb-2'>
-          {alltvshows.map((data) => (
-            <NavLink to='/tvdetail'
-              key={data.id}
-              onClick={() => {
-                setTvid(data.id)
-              }}
-              className='cursor-pointer shrink-0 transform hover:scale-110 transition duration-300'
-            >
-              <img
-                src={data?.poster_path_full}
-                className='w-36 sm:w-40 rounded-lg shadow-md'
-                alt=""
-              />
-            </NavLink>
-          ))}
-        </div>
+    <main className='mt-16 min-h-screen bg-zinc-950 px-3 pb-14 text-white sm:mt-20 sm:px-5 lg:px-0 lg:pb-30'>
+      <section className='relative overflow-hidden'>
+        {homeshow.length > 0 && (
+          <Swiper
+            key={homeshow.map((show) => show.id).join('-')}
+            modules={[Autoplay]}
+            slidesPerView={1}
+            spaceBetween={3}
+            loop={homeshow.length > 1}
+            autoplay={{ delay: 2800, disableOnInteraction: false }}
+          >
+            {homeshow.map((data) => (
+              <SwiperSlide key={data.id} className='relative'>
+                <img
+                  src={data?.backdrop_path_full}
+                  alt={data?.name || 'Featured show'}
+                  className='h-[260px] w-full object-cover sm:h-[360px] xl:h-[500px]'
+                />
+                <div className='absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/40 to-transparent' />
+                <div className='absolute bottom-8 left-4 max-w-2xl space-y-3 sm:bottom-12 sm:left-10 lg:left-24'>
+                  <p className='text-xs font-semibold uppercase tracking-[0.32em] text-red-400'>Featured Series</p>
+                  <h1 className='line-clamp-2 text-3xl font-black sm:text-5xl'>{data?.name}</h1>
+                  <p className='line-clamp-2 max-w-xl text-sm text-zinc-300 sm:text-base'>{data?.overview}</p>
+                  <NavLink
+                    to='/tvdetail'
+                    onClick={() => openShow(data)}
+                    className='inline-flex items-center gap-2 rounded-full bg-red-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-red-950/40 transition hover:bg-red-500'
+                  >
+                    <FaPlay />
+                    Episodes
+                  </NavLink>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </section>
 
-      {/*  AIRING TODAY */}
-      <section className='lg:px-24 mt-12'>
-        <h2 className='text-xl sm:text-2xl font-bold mb-4'>Airing Today</h2>
-
-        <div className='flex gap-4 overflow-x-scroll scrollbar-hide pb-2'>
-          {othershow.map((data) => (
-            <article
-              key={data.id}
-              onClick={() => {
-                setDetail(data)
-                // setDisplay(true)
-                setTvid(data.id)
-              }}
-              className='cursor-pointer shrink-0 transform hover:scale-110 transition duration-300'
-            >
-              <img
-                src={data?.poster_path_full}
-                className='w-36 sm:w-40 rounded-lg shadow-md'
-                alt=""
-              />
-            
-            </article>
-          ))}
-        </div>
-      </section>
-
-        {/* POPUP */}
-      {/* {display && detail && (
-        <Tvpop detail={detail} />
-      )} */}
-
-    </div>
+      <TvRow title='Popular Shows' shows={alltvshows} onOpen={openShow} />
+      <TvRow title='Airing Today' shows={othershow} onOpen={openShow} />
+    </main>
   )
 }
+
+const TvRow = ({ title, shows, onOpen }) => (
+  <section className='mt-10 px-1 sm:px-5 lg:px-20'>
+    <h2 className='mb-4 text-xl font-bold tracking-wide text-white sm:text-2xl'>{title}</h2>
+    <div className='flex gap-4 overflow-x-auto pb-3 scrollbar-hide'>
+      {shows.map((data) => (
+        <NavLink to='/tvdetail' key={data.id} onClick={() => onOpen(data)} className='group w-36 shrink-0 cursor-pointer sm:w-40'>
+          <img
+            src={data?.poster_path_full}
+            className='aspect-[2/3] w-full rounded-lg object-cover shadow-lg shadow-black/30 transition duration-300 group-hover:-translate-y-1 group-hover:ring-2 group-hover:ring-red-500'
+            alt={data?.name || 'TV show poster'}
+          />
+          <h3 className='mt-2 line-clamp-1 text-sm font-semibold text-zinc-200'>{data?.name}</h3>
+          <p className='mt-1 flex items-center gap-1 text-xs text-zinc-500'>
+            <FaStar className='text-yellow-400' />
+            {data?.vote_average?.toFixed(1) || 'New'}
+          </p>
+        </NavLink>
+      ))}
+    </div>
+  </section>
+)
 
 export default Tvseries

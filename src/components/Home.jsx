@@ -1,22 +1,19 @@
-
-
+/* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from 'react'
 import Createcontext from './context/Createcontext'
 import Popup from './Popup'
 import { NavLink } from 'react-router-dom'
 import axios from 'axios'
 import Loader from './Loader'
-import {Swiper, SwiperSlide} from 'swiper/react'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import { Autoplay } from 'swiper/modules'
-import { FaPlay} from "react-icons/fa";
+import { FaPlay, FaStar } from 'react-icons/fa'
 
 const MainContent = () => {
-const [homemovie, setHomemovie] = useState([])
-const [upcoming, setUpcoming] = useState([])
-
-
-  const [Toprated, setToprated] = useState([])
+  const [homemovie, setHomemovie] = useState([])
+  const [upcoming, setUpcoming] = useState([])
+  const [topRated, setTopRated] = useState([])
 
   const {
     detail,
@@ -27,191 +24,125 @@ const [upcoming, setUpcoming] = useState([])
     setSimilarid,
     setLoading,
     loading,
-    setTvid
+    setTvid,
   } = useContext(Createcontext)
 
-  useEffect(()=> {
-    if(movies){
-      setHomemovie(movies.slice(0,5))
-    }
-
-  },[movies])
-
+  useEffect(() => {
+    if (movies) setHomemovie(movies.slice(0, 5))
+  }, [movies])
 
   useEffect(() => {
-  setLoading(true);
-  axios
-    .get("https://tmdb.modiavii66.workers.dev/tv/popular?page=1")
-    .then(res => setToprated(res.data.results))
-    .finally(() => setLoading(false));
-}, []);
+    setLoading(true)
+    axios
+      .get('https://tmdb.modiavii66.workers.dev/tv/popular?page=1')
+      .then((res) => setTopRated(res.data.results))
+      .finally(() => setLoading(false))
+  }, [setLoading])
 
- useEffect(() => {
-  setLoading(true);
-  axios
-    .get("https://tmdb.modiavii66.workers.dev/movies/upcoming?page=1")
-    .then(res => setUpcoming(res.data.results))
-    .finally(() => setLoading(false));
-}, []);
+  useEffect(() => {
+    setLoading(true)
+    axios
+      .get('https://tmdb.modiavii66.workers.dev/movies/upcoming?page=1')
+      .then((res) => setUpcoming(res.data.results))
+      .finally(() => setLoading(false))
+  }, [setLoading])
 
-
-
-  
+  const openMovie = (movie) => {
+    setDetail(movie)
+    setDisplay(true)
+    setSimilarid(movie.id)
+    setTvid('')
+  }
 
   return (
-    <div className="mt-16 px-2 md:px-5 bg-zinc-100 lg:px-0 sm:mt-20 pb-14 lg:pb-30  min-h-screen">
-
-      {/* 🔥 HERO SECTION */}
-    <div className=' lg:px-0'>
-        <Swiper
-      modules={[Autoplay]}
-      slidesPerView={1}
-      spaceBetween={3}
-      loop={true}
-      autoplay={{delay: 2000}}
-     >
-           {
-        homemovie && (
-          homemovie.map((data)=> (
+    <main className='mt-16 min-h-screen bg-zinc-950 px-3 pb-14 text-white sm:mt-20 sm:px-5 lg:px-0 lg:pb-30'>
+      <section className='relative overflow-hidden'>
+        <Swiper modules={[Autoplay]} slidesPerView={1} spaceBetween={3} loop autoplay={{ delay: 2800 }}>
+          {homemovie?.map((data) => (
             <SwiperSlide key={data.id} className='relative'>
-                <img src={data?.backdrop_path_full} alt="" className='w-800 md:h-50  xl:h-100 2xl:h-100' />
-                <NavLink to='/playmovie' onClick={()=>
-                 {
-                  setDetail(data)}}>
-                 <FaPlay className='absolute top-[40%] left-[50%] text-3xl  inset-0 z-50  text-white cursor-pointer'
-                
-               />
-              </NavLink>
-               
+              <img
+                src={data?.backdrop_path_full}
+                alt={data?.title || 'Featured movie'}
+                className='h-[260px] w-full object-cover sm:h-[360px] xl:h-[500px]'
+              />
+              <div className='absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/40 to-transparent' />
+              <div className='absolute bottom-8 left-4 max-w-2xl space-y-3 sm:bottom-12 sm:left-10 lg:left-24'>
+                <p className='text-xs font-semibold uppercase tracking-[0.32em] text-red-400'>Featured Movie</p>
+                <h1 className='line-clamp-2 text-3xl font-black sm:text-5xl'>{data?.title}</h1>
+                <p className='line-clamp-2 max-w-xl text-sm text-zinc-300 sm:text-base'>{data?.overview}</p>
+                <NavLink
+                  to={`/play/movie/${data.id}`}
+                  onClick={() => setDetail(data)}
+                  className='inline-flex items-center gap-2 rounded-full bg-red-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-red-950/40 transition hover:bg-red-500'
+                >
+                  <FaPlay />
+                  Play Now
+                </NavLink>
+              </div>
             </SwiperSlide>
-           
-
-          ))
-        )
-      }
-
-      </Swiper>
-    </div>
-    
-      {/* 🔥 TRENDING SECTION */}
-      <section className='px-2 sm:px-5 lg:px-20 mt-10'>
-        <h2 className='text-xl sm:text-2xl font-bold mb-4 tracking-wide'>
-          Trending Now
-        </h2>
-
-        <div className='flex gap-4 overflow-x-scroll scrollbar-hide pb-2'>
-           {loading ? (
-  <Loader />
-) : ( movies?.map((data) => (
-            <article
-              key={data.id}
-              onClick={() => {
-                setDetail(data)
-                setDisplay(true)
-                setSimilarid(data.id)
-              }}
-              className='cursor-pointer shrink-0 transform hover:scale-110 transition duration-300'
-            >
-              <img
-                src={data?.poster_path_full}
-                alt=""
-                className='w-36 sm:w-40 rounded-lg shadow-md'
-              />
-            
-            </article>
-          )))}
-         
-        </div>
+          ))}
+        </Swiper>
       </section>
 
-      {/* 🔥 TOP RATED SECTION */}
-      <section className='px-2 sm:px-5 lg:px-20 mt-12'>
-        <h2 className='text-xl sm:text-2xl font-bold mb-4 tracking-wide'>
-          Top Rated Shows
-        </h2>
+      <MediaRow title='Trending Now' loading={loading} items={movies} type='movie' onMovieClick={openMovie} />
+      <MediaRow
+        title='Top Rated Shows'
+        loading={loading}
+        items={topRated}
+        type='tv'
+        onTvClick={(show) => {
+          setTvid(show.id)
+          setDetail(show)
+        }}
+      />
+      <MediaRow title='Coming Soon' loading={loading} items={upcoming} type='movie' onMovieClick={openMovie} />
 
-        <div className='flex gap-4 overflow-x-scroll scrollbar-hide pb-2'>
-          {loading ? (
-  <Loader />
-) : (
-   Toprated?.map((data) => (
-            <NavLink to='/tvdetail'
-              key={data.id}
-              onClick={() => {
-                setTvid(data.id)
-              }}
-              className='cursor-pointer shrink-0 transform hover:scale-110 transition duration-300'
-            >
-              <img
-                src={data?.poster_path_full}
-                alt=""
-                className='w-36 sm:w-40 rounded-lg shadow-md'
-              />
-            </NavLink>
-          ))
-)}
-          {/* {Toprated?.map((data) => (
-            <article
-              key={data.id}
-              onClick={() => {
-                setDetail(data)
-                setDisplay(true)
-                setSimilarid(data.id)
-              }}
-              className='cursor-pointer shrink-0 transform hover:scale-110 transition duration-300'
-            >
-              <img
-                src={data?.poster_path_full}
-                alt=""
-                className='w-36 sm:w-40 rounded-xl shadow-lg'
-              />
-              <h3 className='mt-2 text-sm font-medium line-clamp-2'>
-                {data?.title || data?.name}
-              </h3>
-            </article>
-          ))} */}
-        </div>
-      </section>
-
-
-{/* upcoming movie */}  
-<section className='px-2 sm:px-5 lg:px-20 mt-10'>
-        <h2 className='text-xl sm:text-2xl font-bold mb-4 tracking-wide'>
-         Upcoming Now
-        </h2>
-
-        <div className='flex gap-4 overflow-x-scroll scrollbar-hide pb-2'>
-           {loading ? (
-  <Loader />
-) : ( upcoming?.map((data) => (
-            <article
-              key={data.id}
-              onClick={() => {
-                setDetail(data)
-                setDisplay(true)
-                setSimilarid(data.id)
-              }}
-              className='cursor-pointer shrink-0 transform hover:scale-110 transition duration-300'
-            >
-              <img
-                src={data?.poster_path_full}
-                alt=""
-                className='w-36 sm:w-40 rounded-lg shadow-md'
-              />
-            
-            </article>
-          )))}
-         
-        </div>
-      </section>
-
-      {/* 🔥 POPUP */}
-      {display && detail && (
-        <Popup detail={detail} />
-      )}
-
-    </div>
+      {display && detail && <Popup />}
+    </main>
   )
 }
+
+const MediaRow = ({ title, loading, items, type, onMovieClick, onTvClick }) => (
+  <section className='mt-10 px-1 sm:px-5 lg:px-20'>
+    <h2 className='mb-4 text-xl font-bold tracking-wide text-white sm:text-2xl'>{title}</h2>
+    <div className='flex gap-4 overflow-x-auto pb-3 scrollbar-hide'>
+      {loading ? (
+        <Loader />
+      ) : (
+        items?.map((data) =>
+          type === 'tv' ? (
+            <NavLink
+              to='/tvdetail'
+              key={data.id}
+              onClick={() => onTvClick(data)}
+              className='group w-36 shrink-0 cursor-pointer sm:w-40'
+            >
+              <Poster data={data} />
+            </NavLink>
+          ) : (
+            <article key={data.id} onClick={() => onMovieClick(data)} className='group w-36 shrink-0 cursor-pointer sm:w-40'>
+              <Poster data={data} />
+            </article>
+          ),
+        )
+      )}
+    </div>
+  </section>
+)
+
+const Poster = ({ data }) => (
+  <>
+    <img
+      src={data?.poster_path_full || `https://image.tmdb.org/t/p/w500${data?.poster_path}`}
+      alt={data?.title || data?.name || 'Poster'}
+      className='aspect-[2/3] w-full rounded-lg object-cover shadow-lg shadow-black/30 transition duration-300 group-hover:-translate-y-1 group-hover:ring-2 group-hover:ring-red-500'
+    />
+    <h3 className='mt-2 line-clamp-1 text-sm font-semibold text-zinc-200'>{data?.title || data?.name}</h3>
+    <p className='mt-1 flex items-center gap-1 text-xs text-zinc-500'>
+      <FaStar className='text-yellow-400' />
+      {data?.vote_average?.toFixed(1) || 'New'}
+    </p>
+  </>
+)
 
 export default MainContent
